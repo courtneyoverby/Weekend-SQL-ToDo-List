@@ -70,7 +70,7 @@ function taskReady(event) {
 
   const taskCompleted = {
     task: taskToComplete,
-    completion: completionStatus,
+    complete: completionStatus,
   };
   updateTaskList(taskCompleteId, taskCompleted);
 }
