@@ -98,9 +98,10 @@ function deleteTask() {
 
   $.ajax({
     method: "DELETE",
-    url: `/tasks/${taskId}`,
+    url: `/tasks/${taskID}`,
   })
     .then((response) => {
+      console.log(response);
       getTasks();
     })
     .catch((error) => {

@@ -40,7 +40,7 @@ router.put("/:id", (req, res) => {
   const taskReadyToGo = req.body;
   const queryText = `UPDATE "task_list" SET "task"=$1, "complete"=$2 WHERE "id"=$3;`;
   pool
-    .query(queryText, [taskReadyToGo.name, taskReadyToGo.age, taskID])
+    .query(queryText, [taskReadyToGo.task, taskReadyToGo.complete, taskId])
     .then((responseDB) => {
       res.sendStatus(200);
     })
@@ -51,7 +51,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const taskID = req.params.id;
-  const queryString = 'DELETE FROM "task_list" WHERE id=$1;';
+  const queryText = 'DELETE FROM "task_list" WHERE id=$1;';
 
   pool
     .query(queryText, [taskID])
