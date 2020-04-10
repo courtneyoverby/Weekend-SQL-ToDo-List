@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
 
   const taskToAdd = req.body;
   const queryText = `INSERT INTO "task_list" ("task", "complete")
-                         VALUES ($1, $2);`;
+                           VALUES ($1, $2);`;
   pool
     .query(queryText, [taskToAdd.task, taskToAdd.complete])
     .then((responseFromDatabase) => {
@@ -41,6 +41,20 @@ router.put("/:id", (req, res) => {
   const queryText = `UPDATE "task_list" SET "task"=$1, "complete"=$2 WHERE "id"=$3;`;
   pool
     .query(queryText, [taskReadyToGo.name, taskReadyToGo.age, taskID])
+    .then((responseDB) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("Error:", err);
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  const taskID = req.params.id;
+  const queryString = 'DELETE FROM "task_list" WHERE id=$1;';
+
+  pool
+    .query(queryText, [taskID])
     .then((responseDB) => {
       res.sendStatus(200);
     })

@@ -7,6 +7,7 @@ function init() {
 
   getTasks();
   $(".viewTasks").on("click", ".js-btn-ready", taskReady);
+  $(".viewTasks").on("click", ".js-btn-delete", deleteTask);
 }
 
 let listOfTasks = [];
@@ -18,7 +19,7 @@ function setupClickListeners() {
 
     const taskToSend = {
       task: $("#task-input").val(),
-      completion: $("#complete-input").val(),
+      complete: $("#complete-input").val(),
     };
     console.log(taskToSend);
 
@@ -91,11 +92,27 @@ function updateTaskList(id, taskData) {
     });
 }
 
+function deleteTask() {
+  const taskID = $(this).data("id");
+  console.log(taskID);
+
+  $.ajax({
+    method: "DELETE",
+    url: `/tasks/${taskId}`,
+  })
+    .then((response) => {
+      getTasks();
+    })
+    .catch((error) => {
+      console.log("error in task delete", error);
+    });
+}
+
 function render(listOfTasks) {
   $(".viewTasks").empty();
 
   for (let tasks of listOfTasks) {
-    if (tasks.completionStatus === "Y") {
+    if (tasks.complete === "Y") {
       $(".viewTasks").append(`
       <tr>
           <td class="task-input">${tasks.task}</td>
@@ -103,7 +120,7 @@ function render(listOfTasks) {
           <td></td>
           <td><button class="js-btn-delete" data-id="${tasks.id}">Delete</button></td>
       </tr>`);
-    } else if (tasks.completionStatus === "N") {
+    } else if (tasks.complete === "N") {
       $(".viewTasks").append(`
         <tr>
             <td class="task-input">${tasks.task}</td>
